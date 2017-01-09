@@ -1,0 +1,9 @@
+{
+    "accounts": [
+        ["username1", "password1", "sharedSecret1"]
+    ],
+
+    "accountNames": {
+        "steam64ID1": "username1"
+    }
+}
