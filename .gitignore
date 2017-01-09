@@ -1,0 +1,6 @@
+node_modules/
+.vscode/
+configALT4.json
+configALT9.json
+configORIG.json
+itemHistory.json
