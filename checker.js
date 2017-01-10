@@ -14,9 +14,7 @@ exports.friendsCheck = function (community, user, arrID, arrPrice, appid = 730) 
     }, 200 * i);*/
 
     var int = setInterval(function () {
-
         var id = arrID.shift();
-
         community.getUserInventory(id, appid, 2, true, function (err, inventory) {
             if (err) {
                 if ((err.message == "This profile is private.") || (err.message == "Malformed response")) {
@@ -27,33 +25,24 @@ exports.friendsCheck = function (community, user, arrID, arrPrice, appid = 730) 
                     console.log(err.message + " ID64: " + id + ", will be checked again.");
                     arrID.push(id);
                 }
-            }
-            if (!err) {
-                invItems = [];
-                itemVal = [];
-                allVal = [];
-                for (var val in obj2 = inventory) {
-                    invItems.push(obj2[val].market_name);
-                };
-                for (i = 0; i < invItems.length; i++) {
-                    itemVal.push(arrPrice[invItems[i]].slice(-1)[0]);
-                };
-                for (i = 0; i < itemVal.length; i++) {
-                    if (itemVal[i] == undefined) {
-                        defVal = ["0", 0, "0"]
-                        allVal.push(defVal[1]);
-                    } else {
-                        allVal.push(Math.round(itemVal[i][1]));
-                    }
-                };
+            } else {
+                var invItems = inventory.map(function (i) {
+                    return i.market_name;
+                });
+                var itemVal = invItems.map(function (i) {
+                    return arrPrice[i].slice(-1)[0];
+                });
+                var allVal = itemVal.map(function (i) {
+                    if (i == undefined) i = ["0", 0, "0"];
+                    return Math.round(i[1]);
+                });
                 var maxVal = allVal.reduce(function (a, b) {
                     return a + b;
                 }, 0);
                 if (maxVal < 30) {
                     user.removeFriend(id);
                     console.log("Inventory value too small, declined ID64: " + id);
-                }
-                else {
+                } else {
                     console.log("ID64: " + id + ", value: " + maxVal + " \u20AC");
                 }
             };
