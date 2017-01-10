@@ -36,7 +36,7 @@ var accountTradeHandler = function (username, password, sharedSecret) {
     client.on('friendRelationship', function (steamID, relationship) {
         if (relationship == SteamUser.Steam.EFriendRelationship.RequestRecipient) {
             pendingReq.push(steamID.getSteamID64());
-            console.log("New friend request, ID: " + steamID.getSteamID64());
+            console.log("New friend request, checking now..");
             check(community, this, pendingReq, priceHist);
         };
     });
