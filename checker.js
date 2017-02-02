@@ -1,4 +1,4 @@
-exports.getItemValues = function (id, community, user, arrID, arrPrice, appid = 730) {
+exports.checker = function (id, community, user, arrID, arrPrice, appid = 730) {
     community.getUserInventory(id, appid, 2, true, function (err, inventory) {
         if (err) {
             if ((err.message == "This profile is private.") || (err.message == "Malformed response")) {
@@ -6,7 +6,7 @@ exports.getItemValues = function (id, community, user, arrID, arrPrice, appid = 
                 user.removeFriend(id);
             } else if ((err.message == "HTTP error 429") || (err.message == "HTTP error 403")) {
                 console.log(err.message + " ID64: " + id + ", will be checked again.");
-                /*arrID.push(id);*/ // find better way of handling.
+                return arrID.push(id); // find better way of handling. 
             }
         } else {
             var invItems = inventory.map(function (i) {

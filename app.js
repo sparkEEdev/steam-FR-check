@@ -3,7 +3,7 @@ const fs = require('fs');
 const SteamUser = require('steam-user');
 const SteamCommunity = require('steamcommunity');
 const SteamTotp = require('steam-totp');
-const check = require('./checker').getItemValues;
+const getInvValue = require('./checker').checker;
 
 const cfg = require('./config_parser');
 
@@ -37,7 +37,7 @@ var accountTradeHandler = function (username, password, sharedSecret) {
         if (relationship == SteamUser.Steam.EFriendRelationship.RequestRecipient) {
             var id64 = steamID.getSteamID64()
             console.log("New friend request, checking now..");
-            check(id64, community, this, freshReq, priceHist);
+            getInvValue(id64, community, this, freshReq, priceHist);
         };
     });  
 
@@ -52,11 +52,18 @@ var accountTradeHandler = function (username, password, sharedSecret) {
         for (var id in pendingReq) {
             pendingReq[id].forEach(function (id64, i) {
                 setTimeout(function (i) {
-                    check(id64, community, client, pendingReq, priceHist)
+                    getInvValue(id64, community, client, freshReq, priceHist)
                 }, 5000 * i)
             })
         }
     });
+
+    setInterval(function () {
+        if (freshReq.length >= 1) {
+            var id = freshReq.shift();
+            getInvValue(id, community, client, freshReq, priceHist)
+        }
+    }, 10000)
 };
 
 for (i = 0; i < cfg.accountLoginInfos.length; i++) {
