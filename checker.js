@@ -1,12 +1,15 @@
-exports.checker = function (id, community, user, arrID, arrPrice, appid = 730) {
+exports.checker = function (id, community, user, arrID, arrPrice, appid) {
+
+    var msg = ">>> " + user._logOnDetails.account_name + "'s request -> " + "ID64: " + id
+
     community.getUserInventory(id, appid, 2, true, function (err, inventory) {
         if (err) {
             if ((err.message == "This profile is private.") || (err.message == "Malformed response")) {
-                console.log("Private inventory/has no items, request declined, ID64: " + id);
+                console.log(msg + ", private inventory/has no items, request declined");
                 user.removeFriend(id);
             } else if ((err.message == "HTTP error 429") || (err.message == "HTTP error 403")) {
-                console.log(err.message + " ID64: " + id + ", will be checked again.");
-                return arrID.push(id); // find better way of handling. 
+                console.log(msg + ", " + err.message + ", will be checked again.");
+                return arrID.unshift(id);
             }
         } else {
             var invItems = inventory.map(function (i) {
@@ -24,9 +27,9 @@ exports.checker = function (id, community, user, arrID, arrPrice, appid = 730) {
             }, 0);
             if (maxVal < 30) {
                 user.removeFriend(id);
-                console.log("Inventory value too small, declined ID64: " + id);
+                console.log(msg + ", inventory value too small, declined.");
             } else {
-                console.log("ID64: " + id + ", value: " + maxVal.toFixed(2) + " \u20AC");
+                console.log(msg + ", value: " + maxVal.toFixed(2) + " \u20AC");
             }
         };
     });
