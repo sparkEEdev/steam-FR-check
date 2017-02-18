@@ -1,4 +1,4 @@
-exports.checker = function (id, community, user, arrID, arrPrice, appid) {
+module.exports = function checker(id, community, user, arrPrice, appid) {
 
     var msg = ">>> " + user._logOnDetails.account_name + "'s request -> " + "ID64: " + id
 
@@ -9,7 +9,9 @@ exports.checker = function (id, community, user, arrID, arrPrice, appid) {
                 user.removeFriend(id);
             } else if ((err.message == "HTTP error 429") || (err.message == "HTTP error 403")) {
                 console.log(msg + ", " + err.message + ", will be checked again.");
-                return arrID.unshift(id);
+                setTimeout(function () {
+                    checker (id, community, user, arrPrice, appid)
+                }, 10000);
             }
         } else {
             var invItems = inventory.map(function (i) {
