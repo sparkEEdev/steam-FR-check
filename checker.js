@@ -5,13 +5,13 @@ module.exports = function checker(id, community, user, arrPrice, appid) {
     community.getUserInventory(id, appid, 2, true, function (err, inventory) {
         if (err) {
             if ((err.message == "This profile is private.") || (err.message == "Malformed response")) {
-                console.log(msg + ", private inventory/has no items, request declined");
+                console.log(msg + ", private inventory/has no items, request declined.");
                 user.removeFriend(id);
             } else if ((err.message == "HTTP error 429") || (err.message == "HTTP error 403")) {
                 console.log(msg + ", " + err.message + ", will be checked again.");
                 setTimeout(function () {
                     checker (id, community, user, arrPrice, appid)
-                }, 10000);
+                }, 15000);
             }
         } else {
             var invItems = inventory.map(function (i) {
@@ -27,9 +27,9 @@ module.exports = function checker(id, community, user, arrPrice, appid) {
             var maxVal = allVal.reduce(function (a, b) {
                 return a + b;
             }, 0);
-            if (maxVal < 30) {
+            if (maxVal < 35) {
                 user.removeFriend(id);
-                console.log(msg + ", inventory value too small, declined.");
+                console.log(msg + ", inventory value too small, request declined.");
             } else {
                 console.log(msg + ", value: " + maxVal.toFixed(2) + " \u20AC");
             }
