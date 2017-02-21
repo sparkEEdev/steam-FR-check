@@ -1,0 +1,11 @@
+{
+  "name": "steam-FR-check",
+  "version": "1.0.0",
+  "main": "app.js",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "steam-totp": "^1.4.0",
+    "steam-user": "^3.17.0",
+    "steamcommunity": "^3.30.5"
+  }
+}
