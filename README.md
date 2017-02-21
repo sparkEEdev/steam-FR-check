@@ -1,6 +1,6 @@
-# Steam-Friends-List-Checker
+# Steam-FR-Check
 
-Small NodeJS script which acquires list of current friend requests and filters them under certain needs.
+Steam Friend-Request Check - Small NodeJS script which acquires list of current and incoming friend requests and filters them under certain needs.
 
 ## Installation:
 * Node modules required: ```steam-user```, ```steamcommunity```, ```steam-totp```, ```fs```.
