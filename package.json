@@ -1,11 +1,16 @@
 {
-  "name": "steam-FR-check",
-  "version": "1.0.0",
+  "name": "steam-fr-check",
+  "version": "1.2.1",
   "main": "app.js",
   "dependencies": {
     "fs": "0.0.1-security",
     "steam-totp": "^1.4.0",
     "steam-user": "^3.17.0",
     "steamcommunity": "^3.30.5"
+  },
+  "license": "GPL-3.0",
+  "author": {
+    "name": "Saša Marjanović",
+    "email": "sasa.marjanovic1994@gmail.com"
   }
 }

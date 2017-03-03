@@ -18,7 +18,8 @@ module.exports = function checker(id, community, user, arrPrice, appid) {
                 return i.market_name;
             });
             var itemVal = invItems.map(function (i) {
-                return arrPrice[i].slice(-1)[0];
+                if(!arrPrice[i]) console.log(msg + ", has item without price data: " + i + "."); 
+                else return arrPrice[i].slice(-1)[0];
             });
             var allVal = itemVal.map(function (i) {
                 if (i == undefined) i = ["0", 0, "0"];
